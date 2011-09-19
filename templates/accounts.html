@@ -1,0 +1,81 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html lang="en">
+<head>
+    <title>PDF X-RAY: Accounts</title>
+    <link rel="stylesheet" type="text/css" href="/media/css/shared.css"> 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js" type="text/javascript"></script>
+    <script src="/media/js/interact.js" type="text/javascript"></script>
+</head>
+<body>
+  <div id="container" class="container">
+    <div id="nav">
+      <h1 class='header'><a href="/submit/">Submit</a> || <a href="/about/">About</a> || <a href="/reports/">Reports</a> || <a href="/api/">API</a> || <a href="/search/">Search</a> || <a href="/accounts/">Accounts</a></h1>    
+        <hr><br>  
+        {% if request.user.is_authenticated %}        
+            <h2 class='header'><a href="/my_account/">My Account</a> || <a href="/logout/">Logout</a></h2>
+        {% else %}
+        <div id="login_form">
+            <form action="/process_login/" method="POST" enctype="multipart/form-data">
+              {% csrf_token %}
+              Username: {{ login.username }}
+              Password: {{ login.password }}
+              <input type="submit" value="Login" id="submit"/>
+              <input type="button" value="Register" onclick="window.location.href='/register/'"> 
+            </form>
+        </div>  
+        {% endif %}
+        <br>
+    </div>
+
+    <div>
+    <br><br>
+    <h2>PDF X-RAY is split into a few different models, so that users can choose which feature-set best works for them. Accounts come in four different forms: anonymous, standard, premium and premium local. Below is a breakdown of the features included for each type of account (each account includes the previous accounts features):</h2>
+    <br>
+    <h1>Anonymous Accounts (free):</h1>
+    <ul>
+        <li><h2>Ability to upload samples using the web interface</h2></li>
+        <li><h2>Ability to view uploaded sample report and manual analysis</h2></li>
+        <li><h2>Access to view the last 25 reports uploaded</h2></li>
+        <li><h2>Ability to view how users rated streams</h2></li>
+        <li><h2>Ability to search based on various hashes</h2></li>
+        <li><h2>Ability to request expert analysis on uploaded files</h2></li>
+    </ul>
+    
+    <h1>Standard Accounts (free):</h1>
+    <ul>
+        <li><h2>Access to a limited API for submissions and report viewing</h2></li>
+        <li><h2>Ability to see the last 50 reports uploaded</h2></li>
+        <li><h2>Account page that tracks uploaded files</h2></li>
+        <li><h2>Ability to flag streams as malicious or not</h2></li>
+        <li><h2>Access to limited training module</h2></li>
+    </ul>
+    
+    <h1>Premium Accounts:</h1>
+    <ul>
+        <li><h2>Access to the full API</h2></li>
+        <li><h2>Access to more powerful searching including object contents, suspicious details and more</li>
+        <li><h2>Access to thousands of malicious reports</h2></li>
+        <li><h2>Access to related stream detection module</h2></li>
+        <li><h2>Subscription to malicious file/components hash list</h2></li>
+        <li><h2>Priority processing on uploads</h2></li>
+        <li><h2>Access to more extensive training module</h2></li>
+    </ul>
+    
+    <h1>Local Premium Accounts:</h1>
+    <ul>
+        <li><h2>Local installation of PDF X-RAY on site</h2></li>
+    </ul>
+    
+    <br><br>
+    <h2>For pricing or account questions, please contact 9b+ sales at sales@9bplus.com or call us at (240) 406-4552.</h2>
+    
+    </div>
+    
+    <div id="footer">
+        <br><hr><br>
+        <h2>PDF X-RAY was created by <a href="http://www.9bplus.com">9b+</a> || <a href="http://blog.9bplus.com">blog</a> || <a href="https://twitter.com/#!/9bplus">@9bplus</a></h2>
+    </div>
+  </div>
+</body>
+</html>
+

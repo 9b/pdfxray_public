@@ -1,0 +1,120 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html lang="en">
+<head>
+    <title>PDF X-RAY: API</title>
+    <link rel="stylesheet" type="text/css" href="/media/css/shared.css"> 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js" type="text/javascript"></script>
+    <script src="/media/js/interact.js" type="text/javascript"></script>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-25019409-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+</head>
+<body>
+  <div id="container" class="container">
+    <div id="nav">
+      <h1 class='header'><a href="/submit/">Submit</a> || <a href="/about/">About</a> || <a href="/reports/">Reports</a> || <a href="/api/">API</a> || <a href="/search/">Search</a></h1>    
+        <hr><br>      
+        {% if request.user.is_authenticated %}        
+            <h2 class='header'><a href="/my_account/">My Account</a> || <a href="/logout/">Logout</a></h2>
+        {% else %}
+        <div id="login_form">
+            <form action="/process_login/" method="POST" enctype="multipart/form-data">
+              {% csrf_token %}
+              Username: {{ login.username }}
+              Password: {{ login.password }}
+              <input type="submit" value="Login"/>
+              <input type="button" value="Register" onclick="window.location.href='/register/'"> 
+            </form>
+        </div>  
+        {% endif %}
+        <br>
+    </div>
+
+    <div>
+        <h1>Accessing the API</h1>
+        <h2>So you want to access the API? No problem, register with pdfxray.com and your API key will be on your account profile. Please keep in mind this data is limited to non-commercial use only unless approved otherwise. When using our data make sure you throw a link to us, so others know where they can go to get great PDF data!        
+
+        <br><br><hr>
+        
+        <h1>Submitting a file</h1>
+        <h2>Url: http://www.pdfxray.com/api/submit/</h2>
+        <h2>Parameters: FILE </h2>
+    
+        <h1>Getting a JSON Sample</h1>
+        <h2>Url: http://www.pdfxray.com/api/hash/MD5_HASH_OF_FILE/</h2>
+        <h2>Parameters: API KEY</h2>
+        
+        <h1>Getting Hash Data for a Sample</h1>
+        <h2>Url: http://www.pdfxray.com/api/hash/MD5_HASH_OF_FILE/hash_data/</h2>
+        <h2>Parameters: API KEY</h2>
+        
+        <h1>Getting Structure Data for a Sample</h1>
+        <h2>Url: http://www.pdfxray.com/api/hash/MD5_HASH_OF_FILE/structure/</h2>
+        <h2>Parameters: API KEY</h2>
+        
+        <h1>Getting Scan Data for a Sample</h1>
+        <h2>Url: http://www.pdfxray.com/api/hash/MD5_HASH_OF_FILE/scans/</h2>
+        <h2>Parameters: API KEY</h2>
+        
+        <h1>Getting Contents Data for a Sample</h1>
+        <h2>Url: http://www.pdfxray.com/api/hash/MD5_HASH_OF_FILE/contents/</h2>
+        <h2>Parameters: API KEY</h2>
+        
+        <br><hr>
+        
+        <h1>Sample Submit in Python (we use <a href="http://atlee.ca/software/poster/" target="_blank">Poster</a>)</h1>
+        <h2>
+        import simplejson<br>
+        from poster.encode import multipart_encode<br>
+        from poster.streaminghttp import register_openers<br>
+        import urllib2<br><br>
+        
+        file = "YOUR_FILE"<br>
+        url = "http://www.pdfxray.com/api/submit/"<br>
+        register_openers()<br>
+        datagen, headers = multipart_encode({"file": open(file)})<br>
+        request = urllib2.Request(url, datagen, headers)<br>
+        print urllib2.urlopen(request).read()<br><br>
+
+        
+        <h1>Sample Request in Python</h1>
+        <h2>
+        import simplejson as json<br>
+        import urllib<br>
+        import urllib2<br>
+	import malobjclass<br><br>
+
+        hash = "77807a2a3320b9de67ede2bc08f0c1dd"<br>
+        url = "http://www.pdfxray.com/api/hash/" + hash + "/"<br>
+        params = { "key":"YOUR_API_KEY" }<br>
+        data = urllib.urlencode(params)<br>
+        req = urllib2.Request(url,data)<br>
+        response = urllib2.urlopen(req)<br>
+        resp = response.read()<br>
+        resp = json.loads(resp)<br>
+	pdf = malobjclass.jPdf(resp.get("results"))<br>
+        </h2>
+
+	<h1>MalObjClass Helper Class</h1>
+	<h2><a href="/media/tmp/malobjclass.py">Download Here</a></h2>
+
+    </div>
+    
+    <div id="footer">
+        <br><hr><br>
+        <h2>PDF X-RAY was created by <a href="http://www.9bplus.com">9b+</a> || <a href="http://blog.9bplus.com">blog</a> || <a href="https://twitter.com/#!/9bplus">@9bplus</a></h2>
+    </div>
+  </div>
+</body>
+</html>
+

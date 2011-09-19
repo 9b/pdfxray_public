@@ -1,0 +1,11 @@
+Pending tasks:
+
+- User manual
+- Methods documentation in PDFCore.py
+- Colorized output
+- Add the rest of supported stream filters and test existent ones
+- Automatic analysis of embedded PDF files
+- Add AES to the encryption implementation
+- Improve the automatic Javascript analysis, getting code from other parts of the documents (getAnnots, etc)
+- GUI
+- ActionScript analysis?

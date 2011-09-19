@@ -1,0 +1,62 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html lang="en">
+<head>
+    <title>PDF X-RAY: About</title>
+    <link rel="stylesheet" type="text/css" href="/media/css/shared.css"> 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js" type="text/javascript"></script>
+    <script src="/media/js/interact.js" type="text/javascript"></script>
+</head>
+<body>
+  <div id="container" class="container">
+    <div id="nav">
+      <h1 class='header'><a href="/submit/">Submit</a> || <a href="/about/">About</a> || <a href="/reports/">Reports</a> || <a href="/api/">API</a> || <a href="/search/">Search</a></h1>    
+        <hr><br>       
+        {% if request.user.is_authenticated %}        
+            <h2 class='header'><a href="/my_account/">My Account</a> || <a href="/logout/">Logout</a></h2>
+        {% else %}
+        <div id="login_form">
+            <form action="/process_login/" method="POST" enctype="multipart/form-data">
+              {% csrf_token %}
+              Username: {{ login.username }}
+              Password: {{ login.password }}
+              <input type="submit" value="Login" id="submit"/>
+              <input type="button" value="Register" onclick="window.location.href='/register/'"> 
+            </form>
+        </div>  
+        {% endif %}
+        <br>
+    </div>
+
+    <div>
+        <h1>Features</h1>
+        <ul>
+            <li><h2>Summary Report of PDF</h2></li>
+            <li><h2>Interactive Report (includes all data collected on file)</h2></li>
+            <li><h2>Related characteristics found in stored malware</h2></li>
+            <li><h2>Sandbox dump of found JavaScript code</h2></li>
+            <li><h2>Ability to search on various components of a file</h2></li>
+            <li><h2>Ability to flag streams as malicious or not</h2></li>
+            <li><h2>Social network sharing capabilities</h2></li>
+            <li><h2>Basic help documentation built-in</h2></li>
+            <li><h2>Reports saved for uploaded files</h2></li>
+            <li><h2>Full API for submitting and querying</h2></li>
+            <li><h2>Account access and upload tracking</h2></li>
+        </ul>
+        
+        <h1>Technology</h1>
+        <ul>
+            <li><h2><a href="http://eternal-todo.com/tools/peepdf" target="_blank">Peepdf</a></h2></li>
+            <li><h2><a href="http://github.com/9b/malpdfobj" target="_blank">MalPdfObj and MalObjClass</a></h2></li>
+            <li><h2><a href="http://blog.didierstevens.com/programs/pdf-tools/" target="_blank">Stripped down version of PDFiD</a></h2></li>
+        </ul>
+
+    </div>
+    
+    <div id="footer">
+        <br><hr><br>
+        <h2>PDF X-RAY was created by <a href="http://www.9bplus.com">9b+</a> || <a href="http://blog.9bplus.com">blog</a> || <a href="https://twitter.com/#!/9bplus">@9bplus</a></h2>
+    </div>
+  </div>
+</body>
+</html>
+

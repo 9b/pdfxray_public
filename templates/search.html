@@ -1,0 +1,78 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html lang="en">
+<head>
+    <title>PDF X-RAY: Search</title>
+    <link rel="stylesheet" type="text/css" href="/media/css/shared.css"> 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js" type="text/javascript"></script>
+    <script src="/media/js/interact.js" type="text/javascript"></script>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-25019409-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+</head>
+<body>
+  <div id="container" class="container">
+    <div id="nav">
+      <h1 class='header'><a href="/submit/">Submit</a> || <a href="/about/">About</a> || <a href="/reports/">Reports</a> || <a href="/api/">API</a> || <a href="/search/">Search</a></h1>    
+        <hr><br>       
+        {% if request.user.is_authenticated %}        
+            <h2 class='header'><a href="/my_account/">My Account</a> || <a href="/logout/">Logout</a></h2>
+        {% else %}
+        <div id="login_form">
+            <form action="/process_login/" method="POST" enctype="multipart/form-data">
+              {% csrf_token %}
+              Username: {{ login.username }}
+              Password: {{ login.password }}
+              <input type="submit" value="Login" />
+              <input type="button" value="Register" onclick="window.location.href='/register/'"> 
+            </form>
+        </div>  
+        {% endif %}
+        <br>
+    </div>
+    
+    <br><br>
+    <div id="loading"><img src="/media/img/ajax-loader.gif"/><br><h2>Searching the malicious PDF database...</h2></div>
+    <div id="search_form">
+      <form action="/process_search/" method="POST">
+      {% csrf_token %}
+      <h1 class="main"></h1>
+        <select name="search_selection">
+          <option value="hashes_md5">MD5</option>
+          <option value="hashes_sha1">SHA1</option>
+          <option value="hashes_sha256">SHA256</option>
+          <option value="hashes_object_raw_hash">Object Raw Hash</option>
+          <option value="hashes_object_encoded_hash">Object Encoded Hash</option>
+          <option value="hashes_object_decoded_hash">Object Decoded Hash</option>
+	  {% comment %} 
+          <option value="objects_id">Object ID</option>
+          <option value="objects_size">Object Size</option>
+          <option value="objects_offset">Object Offset</option>
+          <option value="objects_contain_js">Contains JavaScript</option>
+          <option value="objects_has_vulns">Contains Vulnerabilities</option>
+          <option value="objects_has_suspicious_elements">Contains Suspicious Elements</option>
+          <option value="objects_has_suspicious_actions">Contains Suspicious Actions</option>
+          <option value="objects_has_suspicious_events">Contains Suspicious Events</option>
+          {% endcomment %}
+	 </select>
+        <input type="text" size=65 name="search_value"/><br/><br>
+      <input type="submit" value="Search" id="submit"/>
+      </form>
+    </div>
+    <div id="footer">
+        <br><hr><br>
+        <h2>PDF X-RAY was created by <a href="http://www.9bplus.com">9b+</a> || <a href="http://blog.9bplus.com">blog</a> || <a href="https://twitter.com/#!/9bplus">@9bplus</a></h2>
+    </div>
+  </div>
+</body>
+</html>
+

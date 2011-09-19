@@ -1,0 +1,30 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html lang="en">
+<head>
+    <title>PDF X-RAY: Login</title>
+    <link rel="stylesheet" type="text/css" href="/media/css/shared.css"> 
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js" type="text/javascript"></script>
+    <script src="/media/js/interact.js" type="text/javascript"></script>
+</head>
+<body>
+  <div id="container" class="container">
+    <div id="nav">
+      <h1 class='header'><a href="/submit/">Submit</a> || <a href="/reports/">Reports</a> || <a href="/api/">API</a> || <a href="/search/">Search</a></h1>
+    </div>
+    <h1 class="main">Login</h1>
+    <div id="login_form">
+      <form action="/process_login/" method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+          <h2>Username: {{ form.username }}</h2>
+          <h2>Password: {{ form.password }}</h2>
+          <input type="submit" value="Login" id="submit"/>
+      </form>
+  </div>
+  <div id="footer">
+      <br><hr><br>
+      <h2>PDF X-RAY was created by <a href="http://www.9bplus.com">9b+</a> || <a href="http://blog.9bplus.com">blog</a> || <a href="https://twitter.com/#!/9bplus">@9bplus</a></h2>
+  </div>
+  </div>
+</body>
+</html>
+

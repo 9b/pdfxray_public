@@ -1,0 +1,49 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html lang="en">
+<head>
+    <title>PDF X-RAY: Register</title>
+    <link rel="stylesheet" type="text/css" href="/media/css/shared.css"> 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js" type="text/javascript"></script>
+    <script src="/media/js/interact.js" type="text/javascript"></script>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-25019409-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+</head>
+<body>
+  <div id="container" class="container">
+    <div id="nav">
+      <h1 class='header'><a href="/submit/">Submit</a> || <a href="/about/">About</a> || <a href="/reports/">Reports</a> || <a href="/api/">API</a> || <a href="/search/">Search</a></h1>    
+        <hr><br>      
+    </div>
+    <h1 class="main">Register</h1>
+    <div id="register_form">
+      <form action="/process_register/" method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+            <div class=”field_container”><form_label>Username:</form_label> {{ form.username }}</div>
+            <div class=”field_container”><form_label>Email:</form_label> {{ form.email }}</div>
+            <div class=”field_container”><form_label>First Name:</form_label> {{ form.first }}</div>
+            <div class=”field_container”><form_label>Last Name:</form_label> {{ form.last }}</div>
+            <div class=”field_container”><form_label>Company:</form_label> {{ form.company }}</div>
+            <div class=”field_container”><form_label>Password:</form_label> {{ form.password }}</div>
+            <div class=”field_container”><form_label>Confirm Password:</form_label> {{ form.confirm_password }}</div>
+      <br><input type="submit" value="Register"/>
+      </form>
+  </div>
+  <div id="footer">
+      <br><hr><br>
+      <h2>PDF X-RAY was created by <a href="http://www.9bplus.com">9b+</a> || <a href="http://blog.9bplus.com">blog</a> || <a href="https://twitter.com/#!/9bplus">@9bplus</a></h2>
+  </div>
+  </div>
+</body>
+</html>
+

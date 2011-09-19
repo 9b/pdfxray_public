@@ -1,0 +1,75 @@
+{% load pagination_tags %}
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html lang="en">
+<head>
+    <title>PDF X-RAY: Reports</title>
+    <link rel="stylesheet" type="text/css" href="/media/css/shared.css"> 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js" type="text/javascript"></script>
+    <script src="/media/js/interact.js" type="text/javascript"></script>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-25019409-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+</head>
+<body>
+  <div id="container" class="container">
+  
+    <div id="nav">
+      <h1 class='header'><a href="/submit/">Submit</a> || <a href="/about/">About</a> || <a href="/reports/">Reports</a> || <a href="/api/">API</a> || <a href="/search/">Search</a></h1>    
+        <hr><br>     
+        {% if request.user.is_authenticated %}        
+            <h2 class='header'><a href="/my_account/">My Account</a> || <a href="/logout/">Logout</a></h2>
+        {% else %}
+        <div id="login_form">
+            <form action="/process_login/" method="POST" enctype="multipart/form-data">
+              {% csrf_token %}
+              Username: {{ login.username }}
+              Password: {{ login.password }}
+              <input type="submit" value="Login"/>
+              <input type="button" value="Register" onclick="window.location.href='/register/'"> 
+            </form>
+        </div>  
+        {% endif %}
+        <br>
+    </div>
+    <br>
+    <div id="all_reports">
+	<h2>Last 50 Reports</h2>
+	<br>
+      {% autopaginate results %}
+      <table border="1">
+      <tr>
+        <th>Hash</th>
+        <th>Filesize</th>
+        <th>Upload Time</th>
+      </tr>
+      {% for item in results %}
+        <tr>
+        <td><h2><a href="/report/{{ item.hash }}">{{ item.hash }}</a></td>
+        <td><h2>{{item.filesize}} bytes</h2></td>
+        <td><h2>{{item.date_time}}</h2></td>
+        </tr>
+      {% endfor %}
+      </table>
+      <br>
+      <h2>{% paginate %}</h2>
+    </div>
+
+    <div id="footer">
+      <br><hr><br>
+      <h2>PDF X-RAY was created by <a href="http://www.9bplus.com">9b+</a> || <a href="http://blog.9bplus.com">blog</a> || <a href="https://twitter.com/#!/9bplus">@9bplus</a></h2>
+   </div>
+   
+  </div>
+</body>
+</html>
+

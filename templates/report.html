@@ -1,0 +1,350 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html lang="en">
+<head>
+    <title>PDF X-RAY: Report Summary: {{ results.file_md5 }}</title>
+    <link rel="stylesheet" type="text/css" href="/media/css/shared.css"> 
+    <link rel="stylesheet" type="text/css" href="/media/css/jquery-ui-1.8.11.custom.css"> 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.0/jquery.min.js" type="text/javascript"></script>
+    <script src="/media/js/interact.js" type="text/javascript"></script>
+    <script src="/media/js/jquery-ui-1.8.11.custom.min.js" type="text/javascript"></script>
+	{% if request.user.is_superuser %}
+		<script src="/media/js/options_tool.js" type="text/javascript"></script>
+	{% endif %}
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-25019409-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>    
+</head>
+<body>
+    {% autoescape on %}
+	<div id="drop_storage" name="{{ results.file_md5 }}"></div>
+
+    {% if request.user.is_superuser %}
+    <div class="floating-menu">
+    <h2>FLAGS</h2>
+    <h3><input type="button" value="MALICIOUS" id="flagged_malicious"/></h3>
+    <h3><input type="button" value="NON-MALICIOUS" id="flagged_non-malicious"/></h3>
+	<br>
+    <h2>TAGS</h2><h3><div id="file_tag_status"></div></h3>
+    <br><br>
+    </div>
+    {% endif %}
+
+    <div id="container" class="container">
+	<div id="help_dialog"></div>    
+    
+	<div id="nav">
+      <h1 class='header'><a href="/submit/">Submit</a> || <a href="/about/">About</a> || <a href="/reports/">Reports</a> || <a href="/api/">API</a> || <a href="/search/">Search</a></h1>    
+        <hr><br>      
+	    {% if request.user.is_authenticated %}        
+		<h2 class='header'><a href="/my_account/">My Account</a> || <a href="/logout/">Logout</a></h2>
+	    {% else %}
+	    <div id="login_form">
+		<form action="/process_login/" method="POST" enctype="multipart/form-data">
+		  {% csrf_token %}
+		  Username: {{ login.username }}
+		  Password: {{ login.password }}
+		  <input type="submit" value="Login"/>
+		  <input type="button" value="Register" onclick="window.location.href='/register/'"> 
+		</form>
+	    </div>  
+	    {% endif %}
+	    <br>
+	</div>
+	
+	{% if error %}
+	    <div id="report_full">
+		<h1>Errors</h2>		
+		<h2>Failed to save file because of size limitations. Contents are cached locally to improve speed.</h2>
+	    </div>
+	{% endif %}
+	
+	{% if results.tags %}
+	    {% for tag in results.tags %}
+		{% if tag == "malware" %} 
+		    <div id="report_full">
+			<h1>Warning</h1>		
+			<h2 class="malware">This file is known to be malicious</h2>
+		    </div>
+		{% endif %}
+	    {% endfor %}
+	{% endif %}
+	
+	<div id="image_preview">
+	    <h1>Image Sample</h1>
+	    <a href="/media/previews/{{ results.file_md5 }}.png" target="_blank"><img src="/media/previews/{{ results.file_md5 }}.png" height=200 width=200 border=1 onerror="onImgError(this)" /></a>
+	</div>
+	
+	<h1>Full Sample [<a href="#" id="full_sample_help">?</a>]</h1>
+	<div id="report_full">
+	    <h2><a href="/interact/{{ results.file_md5 }}">View Full Report</a></h2>
+        </div>
+	
+	<h1>Share Report</h1>
+	<!-- AddThis Button BEGIN -->
+	<div class="addthis_toolbox addthis_default_style addthis_32x32_style">
+	<a class="addthis_button_preferred_1"></a>
+	<a class="addthis_button_preferred_2"></a>
+	<a class="addthis_button_preferred_3"></a>
+	<a class="addthis_button_preferred_4"></a>
+	<a class="addthis_button_compact"></a>
+	<a class="addthis_counter addthis_bubble_style"></a>
+	</div>
+<!--	<script type="text/javascript">var addthis_config = {"data_track_clickback":true};</script> -->
+<!--	<script type="text/javascript" src="https://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-4dc87f3f3d1b3794"></script>  -->
+	<!-- AddThis Button END -->
+	
+	<h1>General Data [<a href="#" id="general_help">?</a>]</h1>
+	
+        <div id="report_general_data">
+	    <h2>MD5 : {{ results.file_md5 }}</h2>
+	    <h2>SHA1 : {{ results.file_sha1 }}</h2> 
+	    <h2>SHA256 : {{ results.file_sha256 }}</h2>
+	    <h2>PDF Header : {{ results.header }}</h2>
+	    <h2>File Size : {{ results.filesize }} bytes</h2>         
+        </div>
+	
+	<h1>Related Malware [<a href="#" id="related_malware_help">?</a>]</h1>
+	{% if results.robjs %}
+	    <div id="related_objects">
+		{% for robj in results.robjs %}
+		    <h2>Object: {{ robj.obj_id }} ({{ robj.obj_hash }})<h2>
+		    
+		    {% for match in robj.matches %}
+			<li>File: <a href="/report/{{ match.parent_file_hash }}" target="_blank">{{ match.parent_file_hash }}</a> - Object: {{ match.obj_id }} (<a href="#" id="{{ results.file_md5 }}_{{ robj.obj_id }}_{{ robj.obj_hash }}_{{ match.parent_file_hash }}_{{ match.obj_id }}_{{ match.obj_hash }}" class="related_object_entry">compare objects</a>)</li>
+		    {% endfor %}
+		    
+		    {% empty %}
+		    <h2>No related files</h2>
+		{% endfor %} 
+	    </div> 
+	{% else %}
+	    <div id="report_general_data">
+	        <h2>No related files</h2>
+	    </div>
+	{% endif %}
+	
+
+	<h1>Scan Data [<a href="#" id="scans_help">?</a>]</h1>
+        <div id="scan_summary">
+		{% if request.user.is_superuser %}
+	    {% for scanner in results.virustotal_scan_results %}
+		{% if scanner.signature != "" %}
+		    <h2 class="malware">{{ scanner.antivirus }} : {{ scanner.signature }} </h4>
+		{% endif %}
+			    
+		{% empty %}
+		<h2>No scan results</h2>
+	    {% endfor %} 
+	    {% if results.virustotal_permalink %}
+		<br>
+		<h2>Scan provided by <a href="{{ results.virustotal_permalink }}" target="_blank">VirusTotal</a></h2>
+	    {% endif %}
+	    {% endif %}
+	<h2>No scan results</h2>
+        </div> 
+
+        <h1>Suspicious Objects [<a href="#" id="suspicious_object_help">?</a>]</h1>
+	
+	<div id="suspicious_objects">
+	    {% for object in results.suspicious_objs %}
+		<div id="object_{{object.id}}">
+		    <h2 class="trigger" id="suspicious"><a href="#">Object: {{object.id}} : @offset {{object.offset}} : {{object.size}} bytes {% if object.contains_js %} : contains JS {% endif %} {% if object.vulns %} : potential vulnerabilities {% endif %}</a></h2>
+            <div id="comments">
+            {% if request.user.is_superuser %}
+                <a href="#" name="{{object.raw_hash}}_{{ results.file_md5 }}" class="add_analysis"><img id="{{object.raw_hash}}_img" class="{{object.raw_hash}}_img" src="/media/img/pencil.jpg" height="30" width="30"/></a>
+            {% endif %}
+            </div>
+
+		    <div class="toggle_container">
+		    <div class="block">		    
+		    <h3>Raw Data</h3>
+		    <p>{{object.raw}}</p>
+		    
+		    {% if object.stream %}
+			{% if object.stream_decoded_stream %}
+			    {% if request.user.is_authenticated %}   
+				{% if request.user.username in object.flag_users %}
+				    {% for item in object.stream_flags %}
+					{% if item.user == request.user.username %}
+					    {% if item.malicious == "true" %}
+						<h3>Decoded Stream - you marked this as <font color="#800000">malicious</font> and {{object.flagged_malicious}} others agree</h3>
+					    {% else %}
+						<h3>Decoded Stream - you marked this as non-malicious and {{object.flagged_non_malicious}} others agree</h3>
+					    {% endif %}
+					{% endif %}
+				    {% endfor %}
+				{% else %}
+				    <h3>Decoded Stream - <a class="flagger" name="{{object.stream_decoded_hash}}" id="malicious" href="#">malicious</a> || <a class="flagger" name="{{object.stream_decoded_hash}}" id="non_malicious" href="#">not malicious</a> || {{object.flagged_malicious}} others marked this as malicious</h3>
+				{% endif %}
+			    {% else %}
+				<h3>Decoded Stream - {{object.flagged_malicious}} users marked this as <font color="#800000">malicious</font></h3>
+			    {% endif %}			
+			    {{object.stream_decoded_stream|linebreaks }}
+			    {% if object.stream_js_code %}
+				<h3>Sandbox JS Code</h3>
+				<form target="_blank" method="post" action="http://jsfiddle.net/api/post/mootools/1.2/dependencies/more/">
+				    {% for code in object.stream_js_code %}
+					<textarea name="js" id="sandbox_js">{{code}}</textarea>
+				    {% endfor %}
+				    <br><input type="submit" value="Execute"/>
+				</form>
+				<br>
+			    {% endif %}
+			    <h3 class="trigger">Stream Hex (click to show)</h3>
+			    <p class="details">{{object.stream_decoded_hex}}</p>	
+			{% else %}
+			    <p>{{object.stream_encoded_stream|linebreaks }}</p>
+                            <h3 class="trigger">Stream Hex (click to show)</h3>
+                            <p class="details">{{object.stream_encoded_hex}}</p>
+			{% endif %}
+		    {% endif %}
+
+		    {% if object.suspicious_actions %}
+			<h3>Suspicious Actions</h3>
+			{% for item in object.suspicious_actions %}
+			    <p>{{item}}</p>
+			{% endfor %}
+		    {% endif %}
+		    
+		    {% if object.suspicious_elements %}
+			<h3>Suspicious Elements</h3>
+			{% for item in object.suspicious_elements %}
+			    <p>{{item}}</p>
+			{% endfor %}
+		    {% endif %}
+		    
+		    {% if object.suspicious_events %}
+			<h3>Suspicious Events</h3>
+			{% for item in object.suspicious_events %}
+			    <p>{{item}}</p>
+			{% endfor %}
+		    {% endif %}
+		    
+		    {% if object.vulns %}
+			<h3>Potential Vulnerabilities</h3>
+			{% for item in object.vulns %}
+			    <p>{{item}}</p>
+			{% endfor %}
+		    {% endif %}
+		
+		    <div id="show_more_link"><a href="#" class="show_more_data">Click to Show More Data</a></div>
+		    <div id="more_data" class="more_data">
+			<h3>Raw Data Hash</h3>
+			<p>{{object.raw_hash}}</p>
+			<h3>Encrypted?</h3>
+			<p>{{object.encrypted}}</p>
+			{% if object.references %}
+			    <h3>References</h3>
+			    {% for item in object.references %}
+				<p>{{item}}</p>
+			    {% endfor %}
+			{% endif %}
+		    </div>		    
+		    
+		    </div>
+		    </div>
+		</div> 
+	    {% empty %}
+		<h2>No suspicious objects</h2>
+	    {% endfor %} 
+	</div>
+
+	<h1>Large Objects [<a href="#" id="large_object_help">?</a>]</h1>
+	
+	<div id="large_objects">
+	    {% for object in results.large_objs %}
+				<div id="object_{{object.id}}">
+		    <h2 class="trigger" id="suspicious"><a href="#">Object: {{object.id}} : @offset {{object.offset}} : {{object.size}} bytes {% if object.contains_js %} : contains JS {% endif %} {% if object.vulns %} : potential vulnerabilities {% endif %}</a></h2>
+            <div id="comments">
+            {% if request.user.is_superuser %}
+                <a href="#" name="{{object.raw_hash}}" class="add_analysis"><img id="{{object.raw_hash}}_img" src="/media/img/pencil.jpg" class="{{object.raw_hash}}_img" height="30" width="30"/></a>
+            {% endif %}
+            </div>
+
+		    <div class="toggle_container">
+		    <div class="block">		    
+		    <h3>Raw Data</h3>
+		    <p>{{object.raw}}</p>
+		    
+		    {% if object.stream %}
+			{% if object.stream_decoded_stream %}
+			    <h3>Stream</h3>
+			    {{object.stream_decoded_stream|linebreaks }}
+			    <h3 class="trigger">Stream Hex (click to show)</h3>
+			    <p class="details">{{object.stream_decoded_hex}}</p>	
+			{% else %}
+			    <p>{{object.stream_encoded_stream|linebreaks }}</p>
+                            <h3 class="trigger">Stream Hex (click to show)</h3>
+                            <p class="details">{{object.stream_encoded_hex}}</p>
+			{% endif %}
+		    {% endif %}
+
+		    {% if object.suspicious_actions %}
+			<h3>Suspicious Actions</h3>
+			{% for item in object.suspicious_actions %}
+			    <p>{{item}}</p>
+			{% endfor %}
+		    {% endif %}
+		    
+		    {% if object.suspicious_elements %}
+			<h3>Suspicious Elements</h3>
+			{% for item in object.suspicious_elements %}
+			    <p>{{item}}</p>
+			{% endfor %}
+		    {% endif %}
+		    
+		    {% if object.suspicious_events %}
+			<h3>Suspicious Events</h3>
+			{% for item in object.suspicious_events %}
+			    <p>{{item}}</p>
+			{% endfor %}
+		    {% endif %}
+		    
+		    {% if object.vulns %}
+			<h3>Potential Vulnerabilities</h3>
+			{% for item in object.vulns %}
+			    <p>{{item}}</p>
+			{% endfor %}
+		    {% endif %}
+		    
+		    <div id="show_more_link"><a href="#" class="show_more_data">Click to Show More Data</a></div>
+		    <div id="more_data" class="more_data">
+			<h3>Raw Data Hash</h3>
+			<p>{{object.raw_hash}}</p>
+			<h3>Encrypted?</h3>
+			<p>{{object.encrypted}}</p>
+			{% if object.references %}
+			    <h3>References</h3>
+			    {% for item in object.references %}
+				<p>{{item}}</p>
+			    {% endfor %}
+			{% endif %}
+		    </div>
+		
+		    </div>
+		    </div>
+		</div> 
+	    {% empty %}
+		<h2>No large objects</h2>   
+	    {% endfor %} 
+	</div>
+	
+    </div>
+    {% endautoescape %}
+
+<script type="text/javascript">var addthis_config = {"data_track_clickback":true};</script>
+<script type="text/javascript" src="https://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-4dc87f3f3d1b3794"></script>
+
+</body>
+</html>
+

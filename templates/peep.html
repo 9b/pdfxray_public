@@ -1,0 +1,38 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html lang="en">
+<head>
+    <title>PDF X-RAY: Peep Test</title>
+    <link rel="stylesheet" type="text/css" href="/media/css/shared.css"> 
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js" type="text/javascript"></script>
+    <script src="/media/js/interact.js" type="text/javascript"></script>
+</head>
+<body>
+  <div id="container" class="container">
+    <div id="nav">
+	<h1 class='header'><a href="/submit/">Submit</a> || <a href="/reports/">Reports</a> || <a href="/api/">API</a> || <a href="/search/">Search</a></h1>
+    </div>
+
+    	{% for body in results.body %}
+	    {{ body }}
+	    <!--{% for objs in body.objects %}-->
+		<!--<h2>ID: {{ objs.id }}</h2>-->
+		<!--<h2>Offset: {{ objs.offset }}</h2>-->
+		<!--{% for detail in objs %}}-->
+		    <!--{% if detail.decodedStream %}-->
+			<!--<h2>Decoded: {{ detail.decodedStream }}</h2> -->
+		    <!--{% else %}-->
+			<!--<h2>Raw: {{ detail.rawStream }}</h2>-->
+		    <!--{% endif %}-->
+		<!--{% endfor %}-->
+		<!--<br><br>-->
+	    <!--{% endfor %}-->
+	{% endfor %}
+	
+    <div id="footer">
+      <br><hr><br>
+      <h2>PDF X-RAY was created by <a href="http://www.9bplus.com">9b+</a> || <a href="http://blog.9bplus.com">blog</a> || <a href="https://twitter.com/#!/9bplus">@9bplus</a></h2>
+   </div>
+  </div>
+</body>
+</html>
+

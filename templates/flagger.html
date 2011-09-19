@@ -1,0 +1,42 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html lang="en">
+<head>
+    <title>PDF X-RAY: Object Flagger</title>
+    <link rel="stylesheet" type="text/css" href="/media/css/shared.css"> 
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js" type="text/javascript"></script>
+    <script src="/media/js/flagger.js" type="text/javascript"></script>
+</head>
+<body>
+  {% autoescape on %}
+  {% csrf_token %}
+  {% if error %}
+    <h2>{{ error }}</h2>
+  {% else %}
+    <h2><a href="/flagger/">NEXT</a> |++++++++++++++++++++| <a href="#" name="{{ hash }}" class="skip">SKIP</a></h2>
+    <br><br>
+    <hr><hr>
+      {% for item in results %}
+        {% if item.suspicious != "" %}
+          <h2 class="malware">Encoded</h2>
+          <h2 class="malware">{{ item.encoded }}</h2>
+          <br><br>
+          <h2 class="malware">Decoded</h2>
+          <h2 class="malware">{{ item.decoded }}</h2>
+        {% else %}
+          <h2>Encoded</h2>
+          <h2>{{ item.encoded }}</h2>
+          <br><br>
+          <h2>Decoded</h2>
+          <h2>{{ item.decoded }}</h2>
+        {% endif %}
+        <h2><a class="flag" name="{{ item.hash }}" href="#">FLAG AS MALICIOUS</a></h2>
+        <br><hr>
+      {% endfor %}
+      <br><br>
+      <h2><a href="/flagger/">NEXT</a> |++++++++++++++++++++| <a href="#" name="{{ hash }}" class="skip">SKIP</a></h2>
+  {% endif %}
+  
+  {% endautoescape %} 
+</body>
+</html>
+
