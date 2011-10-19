@@ -1,10 +1,21 @@
 How do I run this?
 ==================
-Make sure you have django, mongo, matplotlib, numpy, pymongo, pagination and a couple other things. 
+1) Do a git clone to "pdfxray" - the project won't work if your folder holding the source is not labeled this (blame django).
+2) Download the following items:
 
-Will more documentation come?
-=============================
-Yes, but I am currently roaming Belgium at Brucon
+django - https://www.djangoproject.com/
+django-pagination - http://code.google.com/p/django-pagination/
+python setuptools - http://pypi.python.org/pypi/setuptools
+python matplotlib - pulled from ubuntu repos
+mongo - http://www.mongodb.org/display/DOCS/Ubuntu+and+Debian+packages
+mysql - pulled from ubuntu repos
+python-mysqldb - pulled from ubuntu repos
+pymongo - https://github.com/mongodb/mongo-python-driver
+python ghostscript - http://pypi.python.org/pypi/ghostscript
+
+3) Fill in the settings with your database information for mysql
+4) Run a python manage.py syncdb
+5) Should be good to go
 
 Is this the same copy from PDFXRAY.com?
 =======================================
@@ -13,3 +24,4 @@ Indeed
 Are there any catches to all of this?
 =====================================
 No, but you should share. Sharing is caring.
+
