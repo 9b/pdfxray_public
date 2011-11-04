@@ -60,16 +60,19 @@ def encoder_cleaner(stream_data):
 #	return stream_data
 
     data = []
-    for char in stream_data:
-        if is_ascii(char):
-            data.append(char)
-        else:
-            try:
-                char = char.decode('utf-8','replace')
+    if type(stream_data) is not int:
+        for char in stream_data:
+            if is_ascii(char):
                 data.append(char)
-            except:
-                char = char.decode('utf-16','replace')
-                data.append(char)
+            else:
+                try:
+                    char = char.decode('utf-8','replace')
+                    data.append(char)
+                except:
+                    char = char.decode('utf-16','replace')
+                    data.append(char)
+    else:
+        data.append(str(stream_data))
 
     return ''.join(data)
 
