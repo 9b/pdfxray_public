@@ -8,7 +8,7 @@ import optparse
 from PDFConsole import PDFConsole
 from PDFCore import PDFParser
 
-def snatch(file, object_ids, out):
+def snatch(file, out):
     pdfParser = PDFParser()
     ret,pdf = pdfParser.parse(file, True, False)
     statsDict = pdf.getStats()
@@ -20,21 +20,19 @@ def snatch(file, object_ids, out):
 
         for index in objs:
             oid = objs[index].id
-            match = [s for s in object_ids if str(oid) in s]
-            if match:
-                offset = objs[index].offset
-                size = objs[index].size
-                details = objs[index].object
-                if details.type == "stream":
-                    encoded_stream = details.encodedStream
-                    decoded_stream = details.decodedStream
-                    is_flash = decoded_stream[:3]
-                    compare = ["CWS","FWS"]
-                    flash_match = [s for s in object_ids if is_flash in compare]
-                    if flash_match:
-                        f = open(out + str(oid) + '_decoded_object.swf',"w")
-                        f.write(decoded_stream)
-                        f.close()
+            offset = objs[index].offset
+            size = objs[index].size
+            details = objs[index].object
+            if details.type == "stream":
+                encoded_stream = details.encodedStream
+                decoded_stream = details.decodedStream
+                is_flash = decoded_stream[:3]
+                compare = ["CWS","FWS"]
+                flash_match = [s for s in objs if is_flash in compare]
+                if flash_match:
+                    f = open(out + str(oid) + '_decoded_object.swf',"w")
+                    f.write(decoded_stream)
+                    f.close()
 
         count += 1
 
@@ -45,9 +43,8 @@ def main():
     oParser.add_option('-o', '--out', default='', type='string', help='output folder')
     (options, args) = oParser.parse_args()
 
-    if options.file and options.object and options.out:
-		obj_ids = options.object.split(",")
-		snatch(options.file, obj_ids, options.out)
+    if options.file and options.out:
+		snatch(options.file, options.out)
     else:
         oParser.print_help()
         return
