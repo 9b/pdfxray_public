@@ -31,7 +31,7 @@ def snatch(file, out):
                 flash_match = [s for s in objs if is_flash in compare]
                 if flash_match:
                     f = open(out + str(oid) + '_decoded_object.swf',"w")
-                    f.write(decoded_stream)
+                    f.write(decoded_stream.strip())
                     f.close()
 
         count += 1
