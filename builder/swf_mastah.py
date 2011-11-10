@@ -39,7 +39,6 @@ def snatch(file, out):
 def main():
     oParser = optparse.OptionParser(usage='usage: %prog [options]\n' + __description__, version='%prog ' + __version__)
     oParser.add_option('-f', '--file', default='', type='string', help='file to build an object from')
-    oParser.add_option('-i', '--object', default='', type='string', help='object to grab')
     oParser.add_option('-o', '--out', default='', type='string', help='output folder')
     (options, args) = oParser.parse_args()
 
