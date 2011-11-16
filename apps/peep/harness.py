@@ -84,8 +84,8 @@ def snatch_contents(file):
     for item in body:
 	objs = item.objects
 	for index in objs:
-    	decoded_stream = None
-    	filter = None
+        decoded_stream = None
+        filter = None
 	    stream_details = []
 	    oid = objs[index].id
 	    offset = objs[index].offset
