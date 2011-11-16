@@ -137,8 +137,9 @@ def snatch_contents(file):
         compare = ["CWS","FWS"]
         if is_flash == "CWS" or is_flash == "FWS":
             contains_flash = True
-	    temp = {'id':oid,'offset':offset,'size':size,'stream':stream_details,'encrypted':is_encrypted,'contains_js':contains_js,'raw':raw_value,'raw_hash':raw_md5,'references':references,'errors':errors,'suspicious_events':suspicious_events,'suspicious_actions':suspicious_actions,'suspicious_elements':suspicious_elements,'vulns':vulns,'contains_flash':contains_flash}
-	    all_objs.append(temp)
+
+        temp = {'id':oid,'offset':offset,'size':size,'stream':stream_details,'encrypted':is_encrypted,'contains_js':contains_js,'raw':raw_value,'raw_hash':raw_md5,'references':references,'errors':errors,'suspicious_events':suspicious_events,'suspicious_actions':suspicious_actions,'suspicious_elements':suspicious_elements,'vulns':vulns,'contains_flash':contains_flash}
+        all_objs.append(temp)
 
     return json.dumps(all_objs)
 
