@@ -158,7 +158,7 @@
 	<div id="suspicious_objects">
 	    {% for object in results.suspicious_objs %}
 		<div id="object_{{object.id}}">
-		    <h2 class="trigger" id="suspicious"><a href="#">Object: {{object.id}} : @offset {{object.offset}} : {{object.size}} bytes {% if object.contains_js %} : contains JS {% endif %} {% if object.vulns %} : potential vulnerabilities {% endif %}</a></h2>
+		    <h2 class="trigger" id="suspicious"><a href="#">Object: {{object.id}} : @offset {{object.offset}} : {{object.size}} bytes {% if object.contains_js %} : contains JS {% endif %} {% if object.contains_flash %} : contains flash {% endif %} {% if object.vulns %} : potential vulnerabilities {% endif %}</a></h2>
             <div id="comments">
             {% if request.user.is_superuser %}
                 <a href="#" name="{{object.raw_hash}}_{{ results.file_md5 }}" class="add_analysis"><img id="{{object.raw_hash}}_img" class="{{object.raw_hash}}_img" src="/media/img/pencil.jpg" height="30" width="30"/></a>

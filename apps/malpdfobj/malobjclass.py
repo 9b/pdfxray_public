@@ -128,7 +128,7 @@ class jPdf():
 			else:
 				self._small_objs.append(iobj)
 				
-			if len(iobj.vulns) > 0 or len(iobj.suspicious_actions) > 0 or len(iobj.suspicious_elements) > 0 or len(iobj.suspicious_events) > 0 or iobj.contains_js == True:
+			if len(iobj.vulns) > 0 or len(iobj.suspicious_actions) > 0 or len(iobj.suspicious_elements) > 0 or len(iobj.suspicious_events) > 0 or iobj.contains_js == True or iobj.contains_flash == True:
 				self._suspicious_objs.append(iobj)
 				
 			self._objs.append(iobj)
@@ -354,6 +354,7 @@ class jObj():
 		self._objs = []
 
 		self._contains_js = None
+		self._contains_flash = None
 		self._errors = []
 		self._stream = None
 		self._stream_decoded_hash = None
@@ -392,6 +393,10 @@ class jObj():
 	def dump_data(self,json):
                 self._contains_js = json.get("contains_js")
                 self._errors = json.get("errors")
+		try:
+			self._contains_flash = json.get("contains_flash")
+		except:
+			fail = None
 		self._stream = json.get("stream")
 		if len(self._stream) > 0:
 			self._stream_decoded_hash = self._stream.get("decoded_hash")
@@ -483,6 +488,8 @@ class jObj():
 
 	def set_contains_js(self,contains_js):
 		self._contains_js = contains_js
+	def set_contains_flash(self,contains_flash):
+		self._contains_flash = contains_flash
 	def set_errors(self,errors):
 		if len(errors) > 0:
 			for item in errors:
@@ -570,6 +577,8 @@ class jObj():
 		
 	def get_contains_js(self):
 		return self._contains_js
+	def get_contains_flash(self):
+		return self._contains_flash
 	def get_errors(self):
 		return self._errors
 	def get_stream(self):
@@ -634,6 +643,7 @@ class jObj():
 		return self._flagged_non_malicious
 	
 	contains_js = property(get_contains_js,set_contains_js)
+	contains_flash = property(get_contains_flash,set_contains_flash)
 	errors = property(get_errors,set_errors)
 	stream = property(get_stream,set_stream)
 	stream_decoded_hash = property(get_stream_decoded_hash,set_stream_decoded_hash)
