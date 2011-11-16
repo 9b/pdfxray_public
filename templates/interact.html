@@ -163,7 +163,7 @@
        <div id="suspicious_objects">
 	    {% for object in results.objs %}
 		<div id="object_{{object.id}}" class="objects">
-		    <h2 class="trigger" {% if object.suspicious_actions or object.suspicious_elements or object.suspicious_events or object.vulns %} id="suspicious" {% endif %}><a href="#">Object: {{object.id}} : @offset {{object.offset}} : {{object.size}} bytes {% if object.contains_js %} : contains JS {% endif %} {% if object.vulns %} : potential vulnerabilities {% endif %}</a></h2>
+		    <h2 class="trigger" {% if object.suspicious_actions or object.suspicious_elements or object.suspicious_events or object.vulns %} id="suspicious" {% endif %}><a href="#">Object: {{object.id}} : @offset {{object.offset}} : {{object.size}} bytes {% if object.contains_js %} : contains JS {% endif %} {% if object.contains_flash %} : contains flash {% endif %} {% if object.vulns %} : potential vulnerabilities {% endif %}</a></h2>
 
             <div id="comments">
             {% if request.user.is_superuser %}
