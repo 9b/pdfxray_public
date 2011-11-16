@@ -131,6 +131,7 @@ def snatch_contents(file):
 		suspicious_actions = []
 		suspicious_elements = []
 		vulns = []	    
+
 		contains_flash = False
 		is_flash = decoded_stream[:3]
 		compare = ["CWS","FWS"]
