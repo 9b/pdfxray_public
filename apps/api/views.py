@@ -51,7 +51,7 @@ def submit_file(request):
 	else:
 		data = is_present #the file was present and returned
 
-	out_data['report_permalink'] = 'http://www.pdfxray.com/report/' + data.file_md5  + '/'
+	out_data['report_permalink'] = 'https://www.pdfxray.com/report/' + data.file_md5  + '/'
 	out_data['hash'] = data.file_md5
 	fstat = { 'date_time':time(),'filename':filename,'filesize':int(data.filesize),'stored':stored,'process_time':process_time,'user':"annonymous",'hash':data.file_md5 }
 	store_file_stats(json.dumps(fstat))
@@ -66,7 +66,7 @@ def get_full(request,rhash):
 		data = fetch_raw_data(rhash)
 		if data != None:
 			out_data['results'] = data
-			out_data['report_permalink'] = 'http://www.pdfxray.com/report/' + rhash + '/'
+			out_data['report_permalink'] = 'https://www.pdfxray.com/report/' + rhash + '/'
 		else:
 			out_data['errors'] = "File not found"
 	else:
@@ -84,7 +84,7 @@ def get_hash_data(request,rhash):
 			hash_data = data.get("hash_data")
 			file = hash_data.get("file")
 			out_data['results'] = file
-			out_data['report_permalink'] = 'http://www.pdfxray.com/report/' + rhash + '/'
+			out_data['report_permalink'] = 'https://www.pdfxray.com/report/' + rhash + '/'
 		else:
 			out_data['errors'] = "File not found"
 	else:
@@ -101,7 +101,7 @@ def get_structure(request,rhash):
 		if data != None:
 			structure = data.get("structure")
 			out_data['results'] = structure
-			out_data['report_permalink'] = 'http://www.pdfxray.com/report/' + rhash + '/'
+			out_data['report_permalink'] = 'https://www.pdfxray.com/report/' + rhash + '/'
 		else:
 			out_data['errors'] = "File not found"
 	else:
@@ -118,7 +118,7 @@ def get_scans(request,rhash):
 		if data != None:
 			scans = data.get("scans")
 			out_data['results'] = scans
-			out_data['report_permalink'] = 'http://www.pdfxray.com/report/' + rhash + '/'
+			out_data['report_permalink'] = 'https://www.pdfxray.com/report/' + rhash + '/'
 		else:
 			out_data['errors'] = "File not found"
 	else:
@@ -135,7 +135,7 @@ def get_contents(request,rhash):
 		if data != None:
 			contents = data.get("contents")
 			out_data['results'] = contents
-			out_data['report_permalink'] = 'http://www.pdfxray.com/report/' + rhash + '/'
+			out_data['report_permalink'] = 'https://www.pdfxray.com/report/' + rhash + '/'
 		else:
 			out_data['errors'] = "File not found"
 	else:
@@ -177,7 +177,7 @@ def get_report(request,rhash):
 				
 			full = {'general_data':general,'suspicious_objects':suspicious_objects,'large_objects':large_objects,'scan_data':data.virustotal_scan_results}
 			out_data['results'] = full
-			out_data['report_permalink'] = 'http://www.pdfxray.com/report/' + rhash + '/'
+			out_data['report_permalink'] = 'https://www.pdfxray.com/report/' + rhash + '/'
 		else:
 			out_data['errors'] = 'file was not found'
 	else:
