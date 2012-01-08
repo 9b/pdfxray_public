@@ -52,6 +52,7 @@ def submit_file(request):
 		data = is_present #the file was present and returned
 
 	out_data['report_permalink'] = 'http://www.pdfxray.com/report/' + data.file_md5  + '/'
+	out_data['hash'] = data.file_md5
 	fstat = { 'date_time':time(),'filename':filename,'filesize':int(data.filesize),'stored':stored,'process_time':process_time,'user':"annonymous",'hash':data.file_md5 }
 	store_file_stats(json.dumps(fstat))
 	
