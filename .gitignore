@@ -1,4 +1,4 @@
 *.pyc
 media/uploads/*
 static/*
-settings.py
+*settings.py
