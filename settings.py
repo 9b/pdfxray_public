@@ -7,7 +7,7 @@ DEBUG = False
 TEMPLATE_DEBUG = False
 
 ADMINS = (
-    ('Brandon Dixon', 'brandon@9bplus.com'),
+    ('Brandon Dixon', 'bsdixon@gwu.edu'),
 )
 
 MANAGERS = ADMINS
@@ -15,9 +15,9 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'FILLTHISIN',                      # Or path to database file if using sqlite3.
-        'USER': 'FILLTHISIN',                      # Not used with sqlite3.
-        'PASSWORD': 'FILLTHISIN',                  # Not used with sqlite3.
+        'NAME': 'pdfxray',                      # Or path to database file if using sqlite3.
+        'USER': 'root',                      # Not used with sqlite3.
+        'PASSWORD': 'iLOVEmysql!@#',                  # Not used with sqlite3.
         'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
         'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
     }

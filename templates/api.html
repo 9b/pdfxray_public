@@ -47,27 +47,27 @@
         <br><br><hr>
         
         <h1>Submitting a file</h1>
-        <h2>Url: http://www.pdfxray.com/api/submit/</h2>
+        <h2>Url: https://www.pdfxray.com/api/submit/</h2>
         <h2>Parameters: FILE </h2>
     
         <h1>Getting a JSON Sample</h1>
-        <h2>Url: http://www.pdfxray.com/api/hash/MD5_HASH_OF_FILE/</h2>
+        <h2>Url: https://www.pdfxray.com/api/hash/MD5_HASH_OF_FILE/</h2>
         <h2>Parameters: API KEY</h2>
         
         <h1>Getting Hash Data for a Sample</h1>
-        <h2>Url: http://www.pdfxray.com/api/hash/MD5_HASH_OF_FILE/hash_data/</h2>
+        <h2>Url: https://www.pdfxray.com/api/hash/MD5_HASH_OF_FILE/hash_data/</h2>
         <h2>Parameters: API KEY</h2>
         
         <h1>Getting Structure Data for a Sample</h1>
-        <h2>Url: http://www.pdfxray.com/api/hash/MD5_HASH_OF_FILE/structure/</h2>
+        <h2>Url: https://www.pdfxray.com/api/hash/MD5_HASH_OF_FILE/structure/</h2>
         <h2>Parameters: API KEY</h2>
         
         <h1>Getting Scan Data for a Sample</h1>
-        <h2>Url: http://www.pdfxray.com/api/hash/MD5_HASH_OF_FILE/scans/</h2>
+        <h2>Url: https://www.pdfxray.com/api/hash/MD5_HASH_OF_FILE/scans/</h2>
         <h2>Parameters: API KEY</h2>
         
         <h1>Getting Contents Data for a Sample</h1>
-        <h2>Url: http://www.pdfxray.com/api/hash/MD5_HASH_OF_FILE/contents/</h2>
+        <h2>Url: https://www.pdfxray.com/api/hash/MD5_HASH_OF_FILE/contents/</h2>
         <h2>Parameters: API KEY</h2>
         
         <br><hr>
@@ -80,7 +80,7 @@
         import urllib2<br><br>
         
         file = "YOUR_FILE"<br>
-        url = "http://www.pdfxray.com/api/submit/"<br>
+        url = "https://www.pdfxray.com/api/submit/"<br>
         register_openers()<br>
         datagen, headers = multipart_encode({"file": open(file)})<br>
         request = urllib2.Request(url, datagen, headers)<br>
@@ -95,7 +95,7 @@
 	import malobjclass<br><br>
 
         hash = "77807a2a3320b9de67ede2bc08f0c1dd"<br>
-        url = "http://www.pdfxray.com/api/hash/" + hash + "/"<br>
+        url = "https://www.pdfxray.com/api/hash/" + hash + "/"<br>
         params = { "key":"YOUR_API_KEY" }<br>
         data = urllib.urlencode(params)<br>
         req = urllib2.Request(url,data)<br>
