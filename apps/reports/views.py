@@ -10,7 +10,6 @@ from django.conf import settings
 from django.core.serializers.json import DjangoJSONEncoder
 from django.utils import simplejson
 import matplotlib
-import matplotlib.cbook
 from pdfxray.apps.malpdfobj.object_builder import *
 from pdfxray.apps.malpdfobj.malobjclass import *
 from pdfxray.apps.malpdfobj.hash_maker import *
