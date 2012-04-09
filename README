@@ -12,10 +12,12 @@ mysql - pulled from ubuntu repos
 python-mysqldb - pulled from ubuntu repos
 pymongo - https://github.com/mongodb/mongo-python-driver
 python ghostscript - http://pypi.python.org/pypi/ghostscript
+python-simplejson - http://pypi.python.org/pypi/simplejson/
 
 3) Fill in the settings with your database information for mysql
-4) Run a python manage.py syncdb
-5) Should be good to go
+4) Add to your Apache Site settings - WSGIScriptAlias / /var/www/pdfxray/django.wsgi
+5) Run a python manage.py syncdb
+6) Should be good to go
 
 Is this the same copy from PDFXRAY.com?
 =======================================
